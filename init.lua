@@ -190,11 +190,13 @@ require('lazy').setup({
   },
 
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    -- Theme inspired by Atom and Material
+    'sainnhe/edge',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      vim.o.termguicolors = true
+      vim.o.edge_transparent_background = 1
+      vim.cmd.colorscheme 'edge'
     end,
   },
 
@@ -205,7 +207,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
+        theme = 'edge',
         component_separators = '|',
         section_separators = '',
       },
