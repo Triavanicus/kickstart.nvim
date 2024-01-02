@@ -198,9 +198,27 @@ require('lazy').setup({
     'sainnhe/edge',
     priority = 1000,
     config = function()
-      vim.o.termguicolors = true
       vim.g.edge_transparent_background = 1
+
+      if vim.g.neovide then
+        vim.g.edge_transparent_background = 0
+      end
+
+      vim.o.termguicolors = true
       vim.cmd.colorscheme 'edge'
+
+      -- Neovide settings
+      if vim.g.neovide then
+        local alpha = function()
+          return string.format("%x", math.floor(255 * (vim.g.transparency or 1.0)))
+        end
+        vim.g.edge_transparent_background = 1
+        vim.o.guifont = "Source Code Pro:h11"
+        vim.g.transparency = 0.90
+        vim.g.neovide_backgroung_color = string.format("%x",
+          (vim.api.nvim_get_hl_by_name("Normal", true).background or 0)) .. alpha()
+        vim.g.neovide_transparency = vim.g.transparency
+      end
     end,
   },
 
