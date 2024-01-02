@@ -85,8 +85,10 @@ require('lazy').setup({
       -- Automatically install LSPs to stdpath for neovim
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
-      { 'jay-babu/mason-null-ls.nvim', dependencies = {
-          'jose-elias-alvarez/null-ls.nvim'
+      { 'jay-babu/mason-null-ls.nvim',
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = {
+          'jose-elias-alvarez/null-ls.nvim',
         },
       },
 
@@ -585,8 +587,12 @@ require('which-key').register({
 -- before setting up the servers.
 require('mason').setup()
 require('mason-lspconfig').setup()
+require('null-ls').setup()
 require('mason-null-ls').setup({
-  handlers = {},
+  ensure_installed = { "prettier" },
+  automatic_installation = false,
+  handlers = {
+  },
 })
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
