@@ -88,7 +88,7 @@ require('lazy').setup({
       { 'jay-babu/mason-null-ls.nvim',
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
-          'jose-elias-alvarez/null-ls.nvim',
+          'nvimtools/none-ls.nvim',
         },
       },
 
