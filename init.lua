@@ -587,13 +587,18 @@ require('which-key').register({
 -- before setting up the servers.
 require('mason').setup()
 require('mason-lspconfig').setup()
-require('null-ls').setup()
 require('mason-null-ls').setup({
   ensure_installed = { "prettier" },
   automatic_installation = false,
   handlers = {
   },
 })
+require('null-ls').setup({
+  sources = {
+    -- Anything not supported by mason
+  }
+})
+
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 --
