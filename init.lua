@@ -215,7 +215,7 @@ require('lazy').setup({
           return string.format("%x", math.floor(255 * (vim.g.transparency or 1.0)))
         end
         vim.g.edge_transparent_background = 1
-        vim.o.guifont = "Source Code Pro:h11"
+        vim.o.guifont = "JetBrainsMono Nerd Font Mono:h11"
         vim.g.transparency = 0.90
         vim.g.neovide_backgroung_color = string.format("%x",
           (vim.api.nvim_get_hl_by_name("Normal", true).background or 0)) .. alpha()
