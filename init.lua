@@ -346,6 +346,13 @@ vim.o.scrolloff = 8
 
 -- [[ Basic Keymaps ]]
 
+-- My custom keymaps
+-- vim.keymap.set('', '', '', {desc = ''})
+vim.keymap.set('v', 'J', ':m \'>+1<CR>gv=gv', {desc = 'Move selection in visual mode down one line'})
+vim.keymap.set('v', 'K', ':m \'<-2<CR>gv=gv', {desc = 'Move selection in visual mode up one line'})
+vim.keymap.set('n', '<C-d>', '<C-d>zz', {desc = 'Scroll down with the cursor centered'})
+vim.keymap.set('n', '<C-u>', '<C-u>zz', {desc = 'Scroll up with the cursor centered'})
+
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
@@ -549,7 +556,7 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  vim.keymap.set({'i','n'}, '<C-k>', vim.lsp.buf.signature_help, {buffer = bufnr, desc = 'Signature Documentation'})
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -563,6 +570,8 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
+
+  nmap('<leader>ff', ':Format<CR>', '[F]ormat [F]ile')
 end
 
 -- document existing key chains
