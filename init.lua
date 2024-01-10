@@ -323,7 +323,14 @@ vim.o.colorcolumn = "80"
 -- Make sure the cursor is surrounded with 8 lines
 vim.o.scrolloff = 8
 
-
+-- Set OS specific variables
+if vim.loop.os_uname().sysname == 'Linux' then
+  local askpass = '/usr/bin/ksshaskpass'
+  if vim.fn.filereadable(askpass) then
+    vim.env.SUDO_ASKPASS = askpass
+  end
+  vim.api.nvim_create_user_command('W', ":execute ':silent w !sudo tee % > /dev/null' | :edit!", {})
+end
 
 -- [[ Basic Keymaps ]]
 
