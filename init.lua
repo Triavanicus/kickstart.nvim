@@ -452,7 +452,7 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+    ensure_installed = { 'c', 'c_sharp', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -585,7 +585,7 @@ require('which-key').register({
 require('mason').setup()
 require('mason-lspconfig').setup()
 require('mason-null-ls').setup({
-  ensure_installed = { "prettier" },
+  ensure_installed = { "prettier", "omnisharp", "typescript_language_server" },
   automatic_installation = false,
   handlers = {
   },
