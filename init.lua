@@ -304,6 +304,10 @@ vim.o.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
+-- Set default tabstop and shift sizes
+vim.o.tabstop = 4;
+vim.o.shiftwidth = 4;
+
 -- Keep signcolumn on by default
 vim.wo.signcolumn = 'yes'
 
