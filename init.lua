@@ -332,6 +332,10 @@ if vim.loop.os_uname().sysname == 'Linux' then
   vim.api.nvim_create_user_command('W', ":execute ':silent w !sudo tee % > /dev/null' | :edit!", {})
 end
 
+-- Autocommands
+vim.api.nvim_create_autocmd({"BufNewFile", "BufReadPre"},
+  { pattern = { "*.xaml", "*.axaml" }, command = "setfiletype xml" })
+
 -- [[ Basic Keymaps ]]
 
 -- My custom keymaps
@@ -452,7 +456,7 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'c_sharp', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+    ensure_installed = { 'c', 'c_sharp', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'xml' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -585,7 +589,7 @@ require('which-key').register({
 require('mason').setup()
 require('mason-lspconfig').setup()
 require('mason-null-ls').setup({
-  ensure_installed = { "prettier", "omnisharp", "typescript_language_server" },
+  ensure_installed = { "prettier", "omnisharp", "typescript_language_server", "lemminx" },
   automatic_installation = false,
   handlers = {
   },
