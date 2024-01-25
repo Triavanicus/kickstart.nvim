@@ -196,12 +196,20 @@ require('lazy').setup({
   },
 
   {
-    -- Theme inspired by nord, but with less blue
-    'AlexvZyl/nordic.nvim',
+    'navarasu/onedark.nvim',
     lazy = false,
     priority = 1000,
     config = function()
-      require('nordic').load()
+      require('onedark').setup({
+        style = 'darker',
+        colors = {
+          bg0 = "#1d1d1d",
+          bg1 = "#252525",
+          bg2 = "#2d2d2d",
+          bg3 = "#424242",
+        }
+      })
+      require('onedark').load()
     end
   },
 
@@ -212,6 +220,7 @@ require('lazy').setup({
     -- See `:help lualine.txt`
     opts = {
       options = {
+        theme = 'onedark',
         icons_enabled = true,
         component_separators = { left = '', right = ''},
         section_separators = { left = '', right = ''},
