@@ -270,6 +270,37 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
+  {
+    -- Note taking
+    'nvim-neorg/neorg',
+    tag = 'v7.0.0',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter'
+    },
+    build = ':Neorg sync-parsers',
+    --ft = 'norg',
+    opts = {
+      load = {
+        ["core.defaults"] = {},    -- Loads default behaviour
+        ["core.concealer"] = {},   -- Adds pretty icons to your documents
+        ["core.dirman"] = {        -- Manages Neorg workspaces
+          config = {
+            workspaces = {
+              notes = "~/notes",
+            },
+            default_workspace = 'notes',
+          },
+        },
+      },
+    },
+    config = function (self, opts)
+      require('neorg').setup(opts)
+      vim.wo.conceallevel = 2
+      vim.wo.foldlevel = 99
+    end
+  },
+
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
