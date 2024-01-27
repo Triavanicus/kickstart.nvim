@@ -85,7 +85,8 @@ require('lazy').setup({
       -- Automatically install LSPs to stdpath for neovim
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
-      { 'jay-babu/mason-null-ls.nvim',
+      {
+        'jay-babu/mason-null-ls.nvim',
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
           'nvimtools/none-ls.nvim',
@@ -222,8 +223,8 @@ require('lazy').setup({
       options = {
         theme = 'onedark',
         icons_enabled = true,
-        component_separators = { left = '', right = ''},
-        section_separators = { left = '', right = ''},
+        component_separators = { left = '', right = '' },
+        section_separators = { left = '', right = '' },
       },
     },
   },
@@ -282,9 +283,9 @@ require('lazy').setup({
     --ft = 'norg',
     opts = {
       load = {
-        ["core.defaults"] = {},    -- Loads default behaviour
-        ["core.concealer"] = {},   -- Adds pretty icons to your documents
-        ["core.dirman"] = {        -- Manages Neorg workspaces
+        ["core.defaults"] = {},  -- Loads default behaviour
+        ["core.concealer"] = {}, -- Adds pretty icons to your documents
+        ["core.dirman"] = {      -- Manages Neorg workspaces
           config = {
             workspaces = {
               notes = "~/notes",
@@ -294,7 +295,7 @@ require('lazy').setup({
         },
       },
     },
-    config = function (self, opts)
+    config = function(_, opts)
       require('neorg').setup(opts)
       vim.wo.conceallevel = 2
       vim.wo.foldlevel = 99
@@ -377,17 +378,17 @@ if vim.loop.os_uname().sysname == 'Linux' then
 end
 
 -- Autocommands
-vim.api.nvim_create_autocmd({"BufNewFile", "BufReadPre"},
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPre" },
   { pattern = { "*.xaml", "*.axaml" }, command = "setfiletype xml" })
 
 -- [[ Basic Keymaps ]]
 
 -- My custom keymaps
 -- vim.keymap.set('', '', '', {desc = ''})
-vim.keymap.set('v', 'J', ':m \'>+1<CR>gv=gv', {desc = 'Move selection in visual mode down one line'})
-vim.keymap.set('v', 'K', ':m \'<-2<CR>gv=gv', {desc = 'Move selection in visual mode up one line'})
-vim.keymap.set('n', '<C-d>', '<C-d>zz', {desc = 'Scroll down with the cursor centered'})
-vim.keymap.set('n', '<C-u>', '<C-u>zz', {desc = 'Scroll up with the cursor centered'})
+vim.keymap.set('v', 'J', ':m \'>+1<CR>gv=gv', { desc = 'Move selection in visual mode down one line' })
+vim.keymap.set('v', 'K', ':m \'<-2<CR>gv=gv', { desc = 'Move selection in visual mode up one line' })
+vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Scroll down with the cursor centered' })
+vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Scroll up with the cursor centered' })
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
@@ -592,7 +593,7 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  vim.keymap.set({'i','n'}, '<C-k>', vim.lsp.buf.signature_help, {buffer = bufnr, desc = 'Signature Documentation'})
+  vim.keymap.set({ 'i', 'n' }, '<C-k>', vim.lsp.buf.signature_help, { buffer = bufnr, desc = 'Signature Documentation' })
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
