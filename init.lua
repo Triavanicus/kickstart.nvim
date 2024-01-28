@@ -404,6 +404,53 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
+local function undo_center_window()
+  if not vim.g.is_centered then return end
+  vim.cmd.wincmd("w")
+  vim.cmd("bd")
+  vim.cmd.wincmd("w")
+  vim.cmd("bd")
+  vim.g.is_centered = false
+end
+
+-- TODO: make this use only one buffer
+local function center_window(target_center_width)
+  if vim.g.is_centered then undo_center_window() end
+  if not target_center_width then
+    if vim.v.count > 0 then
+      target_center_width = vim.v.count
+    else
+      target_center_width = 120
+    end
+  end
+  if type(target_center_width) == "string" then
+    target_center_width = (target_center_width) end
+  local width = vim.fn.winwidth(0)
+  if tonumber(target_center_width) > width - 2 then return end
+  local left_side_width = vim.fn.ceil((width - target_center_width) / 2)
+  local right_side_width = width - target_center_width - left_side_width
+  vim.cmd("leftabove vnew")
+  vim.cmd.wincmd("w")
+  vim.cmd("rightbelow vnew")
+  vim.cmd("vertical resize " .. right_side_width)
+  vim.cmd("set nonumber")
+  vim.cmd("set colorcolumn=")
+  vim.cmd.wincmd("w")
+  vim.cmd("vertical resize " .. left_side_width)
+  vim.cmd("set nonumber")
+  vim.cmd("set colorcolumn=")
+  vim.cmd.wincmd("w")
+
+  vim.g.is_centered = true
+end
+
+vim.api.nvim_create_user_command('CenterWindow', function(opts)
+  center_window(opts.fargs[1])
+end, {nargs = '*'})
+
+vim.keymap.set('n', '<leader>cc', center_window, { desc = 'Center the window' })
+vim.keymap.set('n', '<leader>cu', undo_center_window, { desc = 'Undo center the window' })
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
