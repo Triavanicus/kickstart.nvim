@@ -85,13 +85,6 @@ require('lazy').setup({
       -- Automatically install LSPs to stdpath for neovim
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
-      {
-        'jay-babu/mason-null-ls.nvim',
-        event = { "BufReadPre", "BufNewFile" },
-        dependencies = {
-          'nvimtools/none-ls.nvim',
-        },
-      },
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -197,11 +190,11 @@ require('lazy').setup({
   },
 
   {
+    -- Theme inspired by Atom
     'navarasu/onedark.nvim',
     lazy = false,
     priority = 1000,
-    config = function()
-      require('onedark').setup({
+    opts = {
         style = 'darker',
         colors = {
           bg0 = "#1d1d1d",
@@ -209,9 +202,11 @@ require('lazy').setup({
           bg2 = "#2d2d2d",
           bg3 = "#424242",
         }
-      })
+      },
+    config = function(_, opts)
+      require('onedark').setup(opts)
       require('onedark').load()
-    end
+    end,
   },
 
   {
@@ -271,37 +266,6 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
-  {
-    -- Note taking
-    'nvim-neorg/neorg',
-    tag = 'v7.0.0',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-treesitter/nvim-treesitter'
-    },
-    build = ':Neorg sync-parsers',
-    --ft = 'norg',
-    opts = {
-      load = {
-        ["core.defaults"] = {},  -- Loads default behaviour
-        ["core.concealer"] = {}, -- Adds pretty icons to your documents
-        ["core.dirman"] = {      -- Manages Neorg workspaces
-          config = {
-            workspaces = {
-              notes = "~/notes",
-            },
-            default_workspace = 'notes',
-          },
-        },
-      },
-    },
-    config = function(_, opts)
-      require('neorg').setup(opts)
-      vim.wo.conceallevel = 2
-      vim.wo.foldlevel = 99
-    end
-  },
-
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -314,7 +278,7 @@ require('lazy').setup({
   --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
 }, {})
 
 -- [[ Setting options ]]
@@ -346,8 +310,9 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Set default tabstop and shift sizes
-vim.o.tabstop = 4;
-vim.o.shiftwidth = 4;
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
 
 -- Keep signcolumn on by default
 vim.wo.signcolumn = 'yes'
@@ -404,8 +369,18 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
+-- Remap escape to exit out of terminal mode
+vim.keymap.set('t', '<ESC>', [[<C-\><C-n>]], {})
+
+-- Split movements
+vim.keymap.set('n', '<M-j>', '<C-w>j', {})
+vim.keymap.set('n', '<M-k>', '<C-w>k', {})
+vim.keymap.set('n', '<M-h>', '<C-w>h', {})
+vim.keymap.set('n', '<M-l>', '<C-w>l', {})
+
+local is_centered = false
 local function undo_center_window()
-  if not vim.g.is_centered then return end
+  if not is_centered then return end
   vim.cmd.wincmd("w")
   vim.cmd("bd")
   vim.cmd.wincmd("w")
@@ -415,7 +390,7 @@ end
 
 -- TODO: make this use only one buffer
 local function center_window(target_center_width)
-  if vim.g.is_centered then undo_center_window() end
+  if is_centered then undo_center_window() end
   if not target_center_width then
     if vim.v.count > 0 then
       target_center_width = vim.v.count
