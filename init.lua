@@ -385,7 +385,7 @@ local function undo_center_window()
   vim.cmd("bd")
   vim.cmd.wincmd("w")
   vim.cmd("bd")
-  vim.g.is_centered = false
+  is_centered = false
 end
 
 -- TODO: make this use only one buffer
@@ -416,7 +416,7 @@ local function center_window(target_center_width)
   vim.cmd("set colorcolumn=")
   vim.cmd.wincmd("w")
 
-  vim.g.is_centered = true
+  is_centered = true
 end
 
 vim.api.nvim_create_user_command('CenterWindow', function(opts)
