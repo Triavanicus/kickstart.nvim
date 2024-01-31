@@ -378,6 +378,10 @@ vim.keymap.set('n', '<M-k>', '<C-w>k', {})
 vim.keymap.set('n', '<M-h>', '<C-w>h', {})
 vim.keymap.set('n', '<M-l>', '<C-w>l', {})
 
+-- Neorg keybinds
+vim.keymap.set('n', '<leader>ni', ':Neorg index<CR>', { desc = 'Open Neorg index' })
+vim.keymap.set('n', '<leader>nr', ':Neorg return<CR>', { desc = 'Open Neorg index' })
+
 local is_centered = false
 local function undo_center_window()
   if not is_centered then return end
