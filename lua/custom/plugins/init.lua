@@ -2,6 +2,24 @@
 --  I promise not to create any merge conflicts in this directory :)
 --
 -- See the kickstart.nvim README for more information
+
+local function get_obsidian_workspaces()
+  local workspaces = {}
+  local function add_to_ws(mod)
+    if pcall(function() require(mod) end) then
+      local tbl = require(mod)
+      for _, v in ipairs(tbl.workspaces) do
+        table.insert(workspaces, v)
+      end
+    end
+  end
+
+  add_to_ws('custom.personal.obsidian')
+  add_to_ws('custom.work.obsidian')
+
+  return workspaces
+end
+
 return {
   {
     -- LSP conpletion from cli tools
@@ -13,6 +31,21 @@ return {
       'williamboman/mason-lspconfig.nvim',
     },
   },
+
+  {
+    'epwalsh/obsidian.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    opts = {
+      workspaces = get_obsidian_workspaces()
+    },
+    config = function(_, opts)
+      require('obsidian').setup(opts)
+      vim.keymap.set("n", "<leader>os", [[<cmd>ObsidianQuickSwitch<cr>]], { silent = true})
+    end
+  },
+
   {
     -- Note taking
     'nvim-neorg/neorg',
@@ -49,6 +82,8 @@ return {
       vim.wo.foldlevel = 99
     end
   },
+  { import = 'custom.personal.plugins' },
+  --{ import = 'custom.work.plugins' },
 }
 
 -- vim: ts=2 sts=2 sw=2 et
