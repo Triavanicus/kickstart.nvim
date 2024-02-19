@@ -191,21 +191,22 @@ require('lazy').setup({
 
   {
     -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    'Tsuzat/NeoSolarized.nvim',
     lazy = false,
     priority = 1000,
     opts = {
-        style = 'darker',
-        colors = {
-          bg0 = "#1d1d1d",
-          bg1 = "#252525",
-          bg2 = "#2d2d2d",
-          bg3 = "#424242",
-        }
-      },
+      transparent = false,
+      on_highlights = function(highlights, colors)
+        highlights.ColorColumn = { bg = colors.bg1 }
+      end,
+
+    },
     config = function(_, opts)
-      require('onedark').setup(opts)
-      require('onedark').load()
+      local colors = require('NeoSolarized.colors').setup()
+      local lualine_theme = require('lualine.themes.NeoSolarized')
+      lualine_theme.normal.c.bg = colors.blue
+      require('NeoSolarized').setup(opts)
+      vim.cmd [[colorscheme NeoSolarized]]
     end,
   },
 
@@ -216,10 +217,10 @@ require('lazy').setup({
     -- See `:help lualine.txt`
     opts = {
       options = {
-        theme = 'onedark',
+        theme = 'NeoSolarized',
         icons_enabled = true,
-        component_separators = { left = '', right = '' },
-        section_separators = { left = '', right = '' },
+        component_separators = { left = '', right = '' },
+        section_separators = { left = '', right = '' },
       },
     },
   },
