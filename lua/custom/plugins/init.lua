@@ -58,14 +58,14 @@ return {
     --ft = 'norg',
     opts = {
       load = {
-        ["core.defaults"] = {},  -- Loads default behaviour
-        ["core.concealer"] = { -- Adds pretty icons to your documents
+        ["core.defaults"] = {}, -- Loads default behaviour
+        ["core.concealer"] = {  -- Adds pretty icons to your documents
           config = {
             icon_preset = "diamond",
           },
         },
-        ["core.summary"] = {},   -- Generates workspace summaries
-        ["core.dirman"] = {      -- Manages Neorg workspaces
+        ["core.summary"] = {}, -- Generates workspace summaries
+        ["core.dirman"] = {    -- Manages Neorg workspaces
           config = {
             workspaces = {
               notes = "~/Documents/notes",
