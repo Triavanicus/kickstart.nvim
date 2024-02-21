@@ -755,25 +755,25 @@ cmp.setup {
       select = true,
     },
     ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_locally_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
       local copilot_keys = ""
       if not pcall(function() copilot_keys = vim.fn['copilot#Accept']() end) then
         copilot_keys = ""
       end
       if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_locally_jumpable() then
+        luasnip.expand_or_jump()
+      elseif copilot_keys ~= nil and type(copilot_keys) == 'string' and copilot_keys ~= "" then
+        vim.api.nvim_feedkeys(copilot_keys, 'i', true)
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
         cmp.select_prev_item()
       elseif luasnip.locally_jumpable(-1) then
         luasnip.jump(-1)
-      elseif copilot_keys ~= nil and type(copilot_keys) == 'string' then
-        vim.api.nvim_feedkeys(copilot_keys, 'i', true)
       else
         fallback()
       end
