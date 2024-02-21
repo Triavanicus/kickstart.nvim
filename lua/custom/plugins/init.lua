@@ -42,7 +42,7 @@ return {
     },
     config = function(_, opts)
       require('obsidian').setup(opts)
-      vim.keymap.set("n", "<leader>os", [[<cmd>ObsidianQuickSwitch<cr>]], { silent = true})
+      vim.keymap.set("n", "<leader>os", [[<cmd>ObsidianQuickSwitch<cr>]], { silent = true })
     end
   },
 
